@@ -11,15 +11,15 @@
 
 return [
     // 数据库类型
-    'type'            => 'mysql',
+    'type'        => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'    => '101.132.113.119',
     // 数据库名
-    'database'        => '2020_frs',
-    // 用户名
-    'username'        => 'root',
-    // 密码
-    'password'        => 'root',
+    'database'    => '2020_frs',
+    // 数据库用户名
+    'username'    => 'root',
+    // 数据库密码
+    'password'    => 'Zha54321',
     // 端口
     'hostport'        => '',
     // 连接dsn

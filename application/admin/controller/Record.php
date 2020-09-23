@@ -2,12 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2020/9/23
- * Time: 15:38
+ * Date: 2019/1/9
+ * Time: 16:55
+ * 记录查询控制器管理
  */
 namespace app\admin\controller;
-use think\Controller;
-class Blank extends BaseLogin
+use think\Db;
+use FunctionClass;
+class Record extends BaseLogin
 {
     public function index()
     {

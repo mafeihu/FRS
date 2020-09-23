@@ -11,7 +11,7 @@ use think\Db;
 use think\facade\Session;
 use FunctionClass;
 use ConstClass;
-class Login extends Controller
+class Login extends BaseProject
 {
     public function _initialize()
     {
@@ -61,6 +61,6 @@ class Login extends Controller
 
         //保存userinfo
         session::set(ConstClass::LOGIN_USER_INFO,$adminInfo,ConstClass::SESSION_ADMIN);
-        return redirect('index/index');
+        return redirect('blank/index');
     }
 }

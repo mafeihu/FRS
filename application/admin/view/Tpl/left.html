@@ -3,20 +3,15 @@
     <aside >
         <ul class="nav-1">
             <li>
-	           	<span>
-	             <img class="icon-img pdl5" src="/frs/images/menu-3.png">
-	           			活动管理
-	           	<img class="up-down-img pdl20" src="/frs/images/up.png">
-	           	</span>S
                 <ul class="nav-1-item">
                     <li class="select-on">
-                        <a>
-                            活动一览
+                        <a  onclick="doUrl('/admin/Record/index')">
+                            超时人员一览
                         </a>
                     </li>
                     <li class="select-on">
-                        <a>
-                            活动查看
+                        <a onclick="doUrl('/admin/Fcw/index')">
+                            预警时间设置
                         </a>
                     </li>
                 </ul>
@@ -29,6 +24,11 @@
 <input type="hidden" id="menuId" name="menuId" value="<?php echo isset($menuId) ? $menuId : ''; ?>"/>
 <input type="hidden" id="pagePath" name="pagePath" />
 <script type="text/javascript">
+    function doUrl(url)
+    {
+        doSubmitNoCheck("mainform", url);
+    }
+
     function doMenu(pagePath,menuMainId,menuId)
     {
         $("#pagePath").val(pagePath);

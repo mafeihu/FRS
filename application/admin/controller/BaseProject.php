@@ -6,7 +6,6 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
-
 class BaseProject extends Controller
 {
     /**
