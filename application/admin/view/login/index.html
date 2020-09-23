@@ -1,0 +1,90 @@
+{__NOLAYOUT__}
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>登录</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="/frs/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/frs/css/frs.css" />
+    <link rel="stylesheet" type="text/css" href="/frs/css/common.css" />
+    <script src="/frs/js/jquery-1.12.4.min.js"></script>
+    <script src="/frs/js/main.js"></script>
+</head>
+<body>
+<form method="post" name="mainform">
+    <div class="login-main">
+        <!--主体内容-->
+        <div class="login-container">
+            <!-- <div class="login-blue"></div> -->
+            <div class="login-title">
+                <img src="/frs/images/logo.png">
+                <h1 class="login-title-txt">
+                    客户服务支持系统
+                </h1>
+            </div>
+            <div class="input-area-wrap">
+                <input type="text" placeholder="用户名" class="user-input" id="user_name" name="user_name" value="">
+                <input type="password" placeholder="密码" class="pwd-input" id="password" name="password">
+                <div class="row">
+                    <div class="error-txt-wrap">
+                        <p class="error-txt"><?php echo isset($errorMessage) ? $errorMessage : ''; ?></p>
+                    </div>
+                </div>
+                <a class="btn login-btn" onclick="doLogin();">登录</a>
+            </div>
+        </div>
+        <!--<div class="login-footer">-->
+            <!--<p>Copyright © www.shgothic.com, All Rights Reserved.</p>-->
+            <!--<p>上海哥特网络</p>-->
+        <!--</div>-->
+    </div>
+</form>
+</body>
+<script type="text/javascript">
+
+    $(function()
+    {
+        $('.user-input').focus(function(event)
+        {
+            $(this).css({"border-color":"#0079fe"});
+        });
+        $('.user-input').blur(function(event) {
+            $(this).css({"border-color":"#ccc"});
+        });
+        $('.pwd-input').focus(function(event) {
+            $(this).css({"border-color":"#0079fe"});
+        });
+        $('.pwd-input').blur(function(event) {
+            $(this).css({"border-color":"#ccc"});
+        });
+
+        // 回车
+        $('#name').keydown(function(e)
+        {
+            if (e.keyCode == 13) {
+                doLogin();
+                e.preventDefault();
+            }
+        });
+
+        $('#password').keydown(function(e)
+        {
+            //alert(e.keyCode);
+            if (e.keyCode == 13) {
+                doLogin();
+                e.preventDefault();
+            }
+        });
+    })
+
+    function doLogin()
+    {
+        doSubmit("mainform", "login");
+    }
+
+</script>
+</html>
+

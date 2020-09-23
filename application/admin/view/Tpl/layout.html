@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<include file="./Tpl/header.php" />
+	<body>
+	<form method="post" name="mainform" enctype='multipart/form-data'>
+		<div class="bgwrap">
+			<!-- 上部 开始-->
+			<include file="./Tpl/top.php" />
+			<!-- 上部 结束-->
+
+			<!-- 左菜单 开始-->
+			<include file="./Tpl/left.php" />
+			<!-- 左菜单 结束-->
+
+			<div class="content-wrap">
+				<section class="rt-sec-wrap">
+					<div class="rt-container">
+		            {__CONTENT__}
+						<include file="./Tpl/footer.php" />
+					</div>
+				</section>
+			</div>
+		</div>
+	</form>
+	</body>
+	
+</html>

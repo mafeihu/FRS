@@ -1,0 +1,71 @@
+<!--aside nav左侧导航-->
+<div class="lt-aside-nav">
+    <aside >
+        <ul class="nav-1">
+            <li>
+	           	<span>
+	             <img class="icon-img pdl5" src="/frs/images/menu-3.png">
+	           			活动管理
+	           	<img class="up-down-img pdl20" src="/frs/images/up.png">
+	           	</span>S
+                <ul class="nav-1-item">
+                    <li class="select-on">
+                        <a>
+                            活动一览
+                        </a>
+                    </li>
+                    <li class="select-on">
+                        <a>
+                            活动查看
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </aside>
+</div>
+<input type="hidden" id="menuMainId" name="menuMainId" value="<?php echo isset($menuMainId) ? $menuMainId : ''; ?>" />
+<input type="hidden" id="menuId" name="menuId" value="<?php echo isset($menuId) ? $menuId : ''; ?>"/>
+<input type="hidden" id="pagePath" name="pagePath" />
+<script type="text/javascript">
+    function doMenu(pagePath,menuMainId,menuId)
+    {
+        $("#pagePath").val(pagePath);
+        $("#menuMainId").val(menuMainId);
+        $("#menuId").val(menuId);
+        doSubmitNoCheck("mainform", "__URL__/gotopage");
+    }
+
+    $(function(){
+        $(".nav-1 > li > span").click(function(){ // 注意用的是 子选择器 ( > )
+            var $ul = $(this).siblings("ul");
+            var $img = $(this).find(".up-down-img");
+
+            if($ul.is(":visible")){
+                $img.attr("src","/frs/images/down.png");
+                $ul.hide();
+            }else{
+                $img.attr("src","/frs/images/up.png");
+                $ul.show();
+            }
+            return false;
+        });
+
+        $(".wel-t").click(function(){ // 注意用的是 子选择器 ( > )
+            var $ul = $(this).siblings("ul");
+            var $img = $(this).find(".up-down-img");
+
+            if($ul.is(":visible")){
+                $img.attr("src","/frs/images/down.png");
+                $ul.hide();
+            }else{
+                $img.attr("src","/frs/images/up.png");
+                $ul.show();
+            }
+            return false;
+        })
+    })
+</script>
+
+

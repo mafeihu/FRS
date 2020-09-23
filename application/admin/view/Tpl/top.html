@@ -1,0 +1,23 @@
+<header>
+	<h1>
+		<img src="/Frs/images/logo2.png"/>
+		<span class="logo-text">客户支持管理系统</span>
+	</h1>
+	<div class="rt-nav">
+        <span class="wel-t">
+        	<i style="font-size:24px;" class="fa">&#xf2be;</i>&nbsp;
+                admin
+        </span>
+    
+        <a href="javascript:void(0);" class="a-close" onclick="doLogout()">
+         <i style="font-size:24px;" class="fa">&#xf011</i>
+        </a>
+    </div>
+</header>
+
+<script type="text/javascript">
+	function doLogout()
+	{
+		doSubmitNoCheck("mainform", "__URL__/logout");
+	}
+</script>
