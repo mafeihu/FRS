@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fc45b38-34b8-44e3-aa61-7f8efedbee39" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/application/api/controller/Api.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/api/controller/HttpCurl.php" afterPath="$PROJECT_DIR$/application/api/controller/HttpCurl.php" />
-    </list>
+    <list default="true" id="4fc45b38-34b8-44e3-aa61-7f8efedbee39" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +34,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FrsApi.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FrsApi.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/api/controller/FrsApi.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="288">
@@ -46,6 +42,16 @@
               <folding>
                 <element signature="e#6#102#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Api.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/Api.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-120">
+              <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -386,11 +392,11 @@
       <recent name="D:\PHP\WWW\FRS\application\api\controller" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PHP\WWW\FRS\application\api\controller" />
       <recent name="D:\PHP\WWW\FRS\public\Frs\js" />
       <recent name="D:\PHP\WWW\FRS\public\Frs\css" />
       <recent name="D:\PHP\WWW\FRS\application\admin\controller" />
       <recent name="D:\PHP\WWW\FRS\public\Frs" />
-      <recent name="D:\PHP\WWW\FRS\application\admin\view\index" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -490,12 +496,12 @@
       <workItem from="1576653361600" duration="1373000" />
       <workItem from="1600838034303" duration="119000" />
       <workItem from="1600838200506" duration="11344000" />
-      <workItem from="1600850555337" duration="21576000" />
+      <workItem from="1600850555337" duration="21997000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63145000" />
+    <option name="totallyTimeSpent" value="63566000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -922,14 +928,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/Api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="9" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/common.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
@@ -955,6 +953,14 @@
           <folding>
             <element signature="e#6#102#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/Api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-120">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
