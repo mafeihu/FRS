@@ -8,7 +8,6 @@
  */
 namespace app\api\controller;
 use think\Controller;
-
 Class HttpCurl extends Controller
 {
     public $host;
