@@ -22,63 +22,46 @@
     <!-- 数据列表 -->
     <div class="rt-content-item mt20 ">
         <div class="rt-content-item-title2">
-            <div class="rt-title-txt">数据列表</div>
+            <div class="rt-title-txt">数据列表共{$count}条记录</div>
+            <!--<div class="fright">-->
+                <!--<span class="add-txt mr10">共{$count}条记录</span>-->
+            <!--</div>-->
         </div>
         <div class="rt-item-detail wp100">
             <div class="table-box mb20 table-tb">
                 <table class="wp100">
                     <thead>
                         <tr class="bg_gray2 fb">
-                            <td class="wp7"></td>
-                            <td class="wp7">参会领域</td>
-                            <td class="wp7">省</td>
-                            <td class="wp7">市</td>
-                            <td class="wp7">活动日期</td>
-                            <td class="wp15">会议名称</td>
-                            <td class="wp10">参会形式</td>
-                            <td class="wp7">预算费用</td>
-                            <td class="wp7">实际费用</td>
-                            <td class="wp7">备注</td>
-                            <td class="wp7">状态</td>
+                            <td class="wp10">姓名</td>
+                            <td class="wp10">UUID</td>
+                            <td class="wp10">日期</td>
+                            <td class="wp20">出去时间</td>
+                            <td class="wp20">进入时间</td>
+                            <td class="wp15">出去摄像头位置</td>
+                            <td class="wp15">邮件发送状态</td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>爱若华</td>
-                            <td>风湿科</td>
-
-                            <td>山东省</td>
-                            <td>青岛市</td>
-                            <td>2019-06-01</td>
-                            <td>
-                                2019中华医学会风湿病学年会
-                            </td>
-                            <td>卫星会/展台</td>
-                            <td>&yen;1500.00</td>
-                            <td></td>
-                            <td></td>
-                            <td>创建中</td>
-                        </tr>
+                        {volist name='list' id='item'}
+                            <tr>
+                                <td>{$item.name}</td>
+                                <td>{$item.uuid}</td>
+                                <td>{$item.date}</td>
+                                <td>{$item.out_datetime}</td>
+                                <td>{$item.into_datetime}</td>
+                                <td>{$item.camera_position}</td>
+                                <td>{$item.send_flg}</td>
+                            </tr>
+                        {/volist}
                     </tbody>
                 </table>
             </div>
         </div>
         <!-- 分页符开始 --> <!-- pagechoosen 为当前页样式-->
+
         <div class="thepage-wrap wp100 clear mb40">
-
             <div class="thepage fright mr20">
-                <span>共 400 条记录 第 1 / 80 页</span>
-                <a href="" class="forbid">&lt;</a>
-                <a href="javascript:void(0);" class="on">1</a>
-                <a href="" class="page">2</a>
-                <a href="" class="page">3</a>
-                <a href="" class="page">4</a>
-                <a href="" class="page">5</a>
-                <a href="" class="page">6</a>
-                <a href="" class="page">...</a>
-                <a href="" class="page">&gt;</a>
-                <span class="page-input">跳至<input type="" name="">页</span>
-
+                <span>{$page|raw}</span>
             </div>
         </div>
         <!-- 分页符结束 -->

@@ -13,6 +13,16 @@ class Record extends BaseLogin
 {
     public function index()
     {
+        //条件
+        $cond = [];
+        $cond['obj_status'] = 1;
+        //列表
+        $list = DB::table('frs_record')->where($cond)->paginate(10);
+        $page = $list->render();
+        $count = $list->total();
+        $this->assign('count',$count);
+        $this->assign('list', $list);
+        $this->assign('page', $page);
         return $this->fetch();
     }
 }
