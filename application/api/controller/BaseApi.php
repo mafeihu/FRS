@@ -15,7 +15,7 @@ class BaseApi extends Controller
      * @param string $content 发送邮件内容
      * @return int
      */
-    public  function sendEmail($config,$content='')
+    protected function sendEmail($config,$content='')
     {
         $mail = new PHPMailer();//实例化
         $mail->isSMTP(); // 启用SMTP

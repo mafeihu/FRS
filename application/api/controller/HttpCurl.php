@@ -8,7 +8,7 @@
  */
 namespace app\api\controller;
 use think\Controller;
-Class HttpCurl extends Controller
+Class HttpCurl extends BaseApi
 {
     public $host;
     public $port;

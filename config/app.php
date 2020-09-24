@@ -142,8 +142,9 @@ return [
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
-
-    'layout_on'     =>  true,
-    'layout_name'   =>  'layout',
-
+    //========================================项目配置参数========================================================//
+    //域名
+    'domain_name'            =>'http://192.168.1.162:8099',
+    //每页显示条数
+    'pageSize'               =>1000,
 ];

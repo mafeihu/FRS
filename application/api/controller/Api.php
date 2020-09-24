@@ -6,15 +6,6 @@ use think\Db;
 class Api extends HttpCurl
 {
 //================================================接口请求方法======================================================//
-    //用添加
-    public function userInsert()
-    {
-        $data = [];
-        $data['user_name'] = '测试';
-        $id = UserBLL::userInsert($data);
-        return $id;
-    }
-
 
     /**
      *获取打卡记录并且入库
@@ -29,6 +20,7 @@ class Api extends HttpCurl
         $date_time_from = $this->getDateTimeFrom();
         //结束日期
         $date_time_to = date('Y-m-d H:i:s');
+
         //请求参数
         $requestParams = [];
         $requestParams['type'] = 1;
@@ -49,6 +41,8 @@ class Api extends HttpCurl
             $page_size = $data['page_size'];
             //总页数
             $total_page = $data['total_page'];
+
+
             for ($page=1; $page<=$total_page; $page++)
             {
                 echo $page;
