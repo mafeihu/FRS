@@ -13,7 +13,7 @@
                     <i class="fred ">*</i>分钟：
                 </div>
                 <div class="input-row-input fleft w300">
-                    <input type="text" name="minute" id="minute" placeholder="">
+                    <input type="text" name="minute" id="minute" placeholder="" value="{$minute}">
                 </div>
             </div>
             <div class="mt20 mb20 w300 mauto">
@@ -23,12 +23,22 @@
     </div>
 </div>
 <script type="text/javascript">
+    //保存
     function doSave()
     {
-        doAjax()
-        {
-
-        }
+        var minute = $('#minute').val();
+        //数据提交
+        doAjax({
+            type: "POST",
+            url: "{:url('save')}",
+            data: {minute:minute},
+            dataType: "json",
+            success: function(json)
+            {
+                alert(json.message);
+                location.reload();
+            }
+        });
     }
 </script>
 

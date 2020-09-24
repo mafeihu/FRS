@@ -10,6 +10,28 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+function showSuccess($message='',$data=[],$httpCode=200){
+    $result = [
+        'status'=>'ok',
+        'message'=>$message,
+        'data'=>$data,
+    ];
+    return json($result,$httpCode);
+}
+
+//失败
+function showError($message='',$data=[],$httpCode=200){
+    $result = [
+        'status'=>'error',
+        'message'=>$message,
+        'data'=>$data,
+    ];
+    return json($result,$httpCode);
+}
+//加密
+function my_encrypt($data) {
+    return md5(config('AUTH_CODE') . md5($data));
+}
 
 //常量
 class ConstClass{

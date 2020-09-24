@@ -1,0 +1,96 @@
+<div class="manage-head">
+    <h6 class="pdl5 manage-head-con wp50">邮箱配置信息</h6>
+</div>
+<div class="rt-content">
+    <!-- 创建导航 -->
+    <!-- 添加内部员工分工 -->
+    <div class="rt-content-item mt20 ft14">
+        <p class="rt-content-item-title">邮箱配置信息
+        </p>
+        <div class="clear mb20 mauto w770">
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred ">*</i>发件人邮箱：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <input type="text" name="from_mail" id="from_mail" placeholder="" value="{$info.from_mail}">
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred ">*</i>发件邮箱授权码：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <input type="text" name="password" id="password" placeholder="" value="{$info.password}">
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred ">*</i>邮件标题：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <input type="text" name="subject" id="subject" placeholder="" value="{$info.subject}">
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred ">*</i>发件人名称：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <input type="text" name="from_name" id="from_name" placeholder="" value="{$info.from_name}">
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred ">*</i>收件人邮箱：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <input type="text" name="user_email" id="user_email" placeholder="" value="{$info.user_email}">
+                </div>
+            </div>
+            <div class="mt20 mb20 w300 mauto">
+                <a href="javascript:;" class="pop-add-btn2 mr20" onclick="doSave()">保存</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //保存
+    function doSave()
+    {
+        var from_mail = $('#from_mail').val();
+        var password = $('#password').val();
+        var subject = $('#subject').val();
+        var from_name = $('#from_name').val();
+        var user_email = $('#user_email').val();
+
+        //数据整合
+        var pagedata = {
+            from_mail:from_mail,
+            password:password,
+            subject:subject,
+            from_name:from_name,
+            user_email:user_email
+        };
+
+        //数据提交
+        doAjax({
+            type: "POST",
+            url: "{:url('save')}",
+            data: pagedata,
+            dataType: "json",
+            success: function(json)
+            {
+                if(json.status=='ok')
+                {
+                    alert(json.message);
+                    location.reload();
+                }
+                else
+                {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+</script>

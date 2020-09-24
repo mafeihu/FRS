@@ -11,7 +11,6 @@ use think\Db;
 use FunctionClass;
 class Fcw extends BaseLogin
 {
-
     //初始化页面
     public function index()
     {
@@ -28,15 +27,23 @@ class Fcw extends BaseLogin
         $minute = $this->request->param('minute');
         if(FunctionClass::isNullOrEmpty($minute))
         {
-            return false;
+            return showError('请设置分钟数');
         }
         //数据
         $data = [];
         $data['minute'] = $minute;
+        $data['obj_modifydate'] = date('Y-m-d H:i:s');
         //条件
         $cond = [];
         $cond['id'] = 1;
         $result = DB::table('frs_fcw')->where($cond)->update($data);
-        return redirect('fcw/index');
+        if($result)
+        {
+            return showSuccess('保存成功');
+        }
+        else
+        {
+            return showError('保存失败');
+        }
     }
 }
