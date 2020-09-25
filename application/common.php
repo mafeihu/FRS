@@ -10,7 +10,8 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
-function showSuccess($message='',$data=[],$httpCode=200){
+function showSuccess($message='',$data=[],$httpCode=200)
+{
     $result = [
         'status'=>'ok',
         'message'=>$message,
@@ -20,7 +21,8 @@ function showSuccess($message='',$data=[],$httpCode=200){
 }
 
 //失败
-function showError($message='',$data=[],$httpCode=200){
+function showError($message='',$data=[],$httpCode=200)
+{
     $result = [
         'status'=>'error',
         'message'=>$message,
@@ -29,9 +31,22 @@ function showError($message='',$data=[],$httpCode=200){
     return json($result,$httpCode);
 }
 //加密
-function my_encrypt($data) {
+function my_encrypt($data)
+{
     return md5(config('AUTH_CODE') . md5($data));
 }
+
+//打印
+function pre($data)
+{
+    echo "<pre>";
+    var_dump($data);
+}
+
+
+
+
+
 
 //常量
 class ConstClass{
@@ -61,5 +76,9 @@ class FunctionClass{
         return is_null($str) || $str === '';
     }
 }
+
+
+
+
 
 
