@@ -16,8 +16,8 @@ class Fcw extends BaseLogin
     {
         $cond = [];
         $cond['id'] = 1;
-        $minute = Db::table('frs_fcw')->where($cond)->value('minute');
-        $this->assign('minute',$minute);
+        $info = DB::table('frs_fcw')->where($cond)->find();
+        $this->assign('info',$info);
         return $this->fetch();
     }
 

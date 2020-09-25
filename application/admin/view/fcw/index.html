@@ -9,11 +9,35 @@
         </p>
         <div class="clear mb20 mauto w770">
             <div class="input-row2  mt20">
-                <div class="input-row-title fleft w160 pdr10" id="miao">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred "></i>上午上班时间：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <b>{$info.am_start_time}——{$info.am_end_time}</b>
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred "></i>下午上班时间：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <b>{$info.pm_start_time}——{$info.pm_end_time}</b>
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
+                    <i class="fred "></i>上次执行时间：
+                </div>
+                <div class="input-row-input fleft w300">
+                    <b>{$info.exec_time}</b>
+                </div>
+            </div>
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">
                     <i class="fred ">*</i>分钟：
                 </div>
                 <div class="input-row-input fleft w300">
-                    <input type="text" name="minute" id="minute" placeholder="" value="{$minute}">
+                    <input type="text" name="minute" id="minute" placeholder="" value="{$info.minute}">
                 </div>
             </div>
             <div class="mt20 mb20 w300 mauto">
