@@ -1,6 +1,6 @@
 
 <div class="manage-head">
-    <h6 class="pdl5 manage-head-con wp50">超时人员一览</h6>
+    <h6 class="pdl5 manage-head-con wp50">节假日一览</h6>
 </div>
 <div class="rt-content">
     <div class="rt-content-item ">
@@ -9,19 +9,7 @@
             <div class="input-row ">
                 <div class="fleft pdl20">输入查询：</div>
                 <div class="input-box fleft">
-                    <input type="text" name="name_like" id="name_like" placeholder="请输入姓名" value="{$name_like|default=''}">
-                </div>
-            </div>
-            <div class="input-row ">
-                <div class="fleft pdl20">查询日期：</div>
-                    <div class="input-box fleft">
-                        <input type="text" class="jqui_datepicker" placeholder="开始日期" id="start_date" name="start_date" maxlength="50" value="<?= isset($start_date) ? $start_date : '';?>">
-                    </div>
-                <div class="input-box fleft">
-                    &nbsp;-&nbsp;
-                </div>
-                <div class="input-box fleft">
-                    <input type="text" class="jqui_datepicker" placeholder="结束日期" id="end_date" name="end_date" maxlength="50" value="<?= isset($end_date) ? $end_date : '';?>">
+                    <input type="text" name="name_like" id="name_like" placeholder="请输入姓名">
                 </div>
             </div>
             <div class="input-row  ml10">
@@ -62,7 +50,7 @@
                                 <td>{$item.out_datetime}</td>
                                 <td>{$item.into_datetime}</td>
                                 <td>{$item.camera_position}</td>
-                                <td>{$item.send_flg==1 ? '已发送' : '未发送'}</td>
+                                <td>{$item.send_flg}</td>
                             </tr>
                         {/volist}
                     </tbody>
