@@ -8,6 +8,11 @@ use think\Db;
 use think\Request;
 class BaseProject extends Controller
 {
+    public function _empty($name)
+    {
+        //把所有城市的操作解析到city方法
+        return redirect('login/index');
+    }
     /**
      * 渲染数据初始化数据
      */
