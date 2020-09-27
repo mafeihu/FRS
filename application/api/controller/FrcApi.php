@@ -17,8 +17,31 @@ class FrcApi extends TextData1
      */
     public function frcUserdeal()
     {
+        //授权登陆
         //日志文件保存路径
         $log_file = date('YmdH').'-FRSlog.txt';
+        $authLogin = $this->authLogin();
+        if($authLogin['code']==0 && count($authLogin['data'])>0)
+        {
+            $auth_token = $authLogin['data']['auth_token'];
+        }else
+        {
+
+            $log_str = date('Y-m-d H:i:s').'登陆失败';
+            $this->logCreate($log_file,$log_str);
+            return false;
+        }
+
+        //请求参数
+        $requestParams = [];
+        $requestParams['type'] = 1;
+        $requestParams['page'] = 1;
+        $requestParams['screen_id'] = 4;
+        $requestParams['size'] = 10;//config('pageSize');
+        //获取数据
+        $result = $this->getrecordlist($auth_token,$requestParams);
+
+
         //获取上次执行时间
         $lastEexcTime = $this->getlastExecTime();
         //获取当前时间戳
@@ -70,47 +93,50 @@ class FrcApi extends TextData1
             $requestParams['size'] = config('pageSize');
             $requestParams['start'] = $lastEexcTime;
             $requestParams['end'] = $nowTime;
-//            //获取数据
-//            $result = $this->getrecordlist($requestParams);
-//            if($result['code']==0 && count($result['data'])>0)
-            if(true)
+            //获取数据
+            $result = $this->getrecordlist($auth_token,$requestParams);
+            if($result['code']==0 && count($result['data'])>0)
             {
 
                 //识别记录数据整合
-                //$record_list = $result['data'];
-                $record_list = $this->getCeshiData();
+                $record_list = $result['data'];
+                //$record_list = $this->getCeshiData();
                 foreach ($record_list as $info)
                 {
-                    //照相机信息
-                    $camera_position = $info['screen']['camera_position'];
-                    //人员信息
-                    $subject = $info['subject'];
-                    //如果是出口相机直接保存
-                    if($camera_position == 'liveOut1' || $camera_position == 'liveOut2')
+                    if($info['subject_id']>0)
                     {
-                        //分页数据
-                        $pageData = [];
-                        $pageData['uuid'] = $info['uuid'];
-                        $pageData['name'] = $subject['name'];
-                        $pageData['avatar'] = $subject['avatar'];
-                        $pageData['camera_position'] = $camera_position;
-                        $pageData['out_datetime'] = date('Y-m-d H:i:s',$info['timestamp']);;
-                        $pageData['date'] = $nowDate;
-                        array_push($outData,$pageData);
+                        //照相机信息
+                        $camera_position = $info['screen']['camera_position'];
+                        //人员信息
+                        $subject = $info['subject'];
+                        //如果是出口相机直接保存
+                        if($camera_position == 'liveOut1' || $camera_position == 'liveOut2')
+                        {
+                            //分页数据
+                            $pageData = [];
+                            $pageData['uuid'] = $subject['subject_id'];
+                            $pageData['name'] = $subject['name'];
+                            $pageData['avatar'] = $subject['avatar'];
+                            $pageData['camera_position'] = $camera_position;
+                            $pageData['out_datetime'] = date('Y-m-d H:i:s',$info['timestamp']);;
+                            $pageData['date'] = $nowDate;
+                            array_push($outData,$pageData);
+                        }
+
+                        //如果是进口相机直接保存
+                        if($camera_position == 'liveOutinto1' || $camera_position == 'liveOutinto2')
+                        {
+                            //分页数据
+                            $pageData = [];
+                            $pageData['uuid'] = $info['subject_id'];
+                            $pageData['name'] = $subject['name'];
+                            $pageData['avatar'] = $subject['avatar'];
+                            $pageData['camera_position'] = $camera_position;
+                            $pageData['timestamp'] = date('Y-m-d H:i:s',$info['timestamp']);
+                            array_push($intoData,$pageData);
+                        }
                     }
 
-                    //如果是进口相机直接保存
-                    if($camera_position == 'liveOutinto1' || $camera_position == 'liveOutinto2')
-                    {
-                        //分页数据
-                        $pageData = [];
-                        $pageData['uuid'] = $info['uuid'];
-                        $pageData['name'] = $subject['name'];
-                        $pageData['avatar'] = $subject['avatar'];
-                        $pageData['camera_position'] = $camera_position;
-                        $pageData['timestamp'] = date('Y-m-d H:i:s',$info['timestamp']);
-                        array_push($intoData,$pageData);
-                    }
                 }
             }
 
@@ -205,10 +231,23 @@ class FrcApi extends TextData1
 
     //====================================================方法==============================================================//
     //=========get:识别记录列表（/event/events）=============//
-    protected function getrecordlist($data=[])
+    protected function getrecordlist($auth_token,$data=[])
     {
         $url= config('domain_name').'/event/events';
-        $result = $this->geturl($url,$data);
+        $result = $this->geturl($url,$auth_token,$data);
+        return $this->object_array(json_decode($result));
+
+    }
+
+    //=========post:授权登陆（/event/events）=============//
+    protected function authLogin()
+    {
+        $requestParams = [];
+        $requestParams['username'] = config('username');
+        $requestParams['password'] = config('password');
+        $requestParams['auth_token'] = true;
+        $url= config('domain_name').'/auth/login';
+        $result = $this->posturl($url,$requestParams);
         return $this->object_array(json_decode($result));
     }
 

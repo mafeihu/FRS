@@ -34,7 +34,7 @@ Class HttpCurl extends BaseApi
     }
 
     //GET请求方式
-    function geturl($path, $data=[]){
+    function geturl($path,$auth_token,$data=[]){
         //路由拼接
         $this->path = $path;
         if (!empty($data) && count($data)>0)
@@ -44,9 +44,8 @@ Class HttpCurl extends BaseApi
 
         //头部定制
         $headerArray = array(
-            "Content-type: text/html; charset=utf-8",
-            "Content-Type: application/json",
-            'Authorization: '.$this->authorization
+            'Content-Type:'.'application/x-www-form-urlencoded; charset=UTF-8',
+            'Authorization: '.$auth_token,
         );
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->path);
@@ -65,9 +64,9 @@ Class HttpCurl extends BaseApi
         $this->postdata = $this->buildJsonQuery($data);
         //头部定制
         $headerArray =array(
-            "Content-type:application/json;charset='utf-8'",
+            "Content-type:application/json",
             "Accept:application/json",
-            'Authorization: '.$this->authorization
+            "user-agent:Koala Admin"
         );
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);

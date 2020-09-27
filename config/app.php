@@ -147,4 +147,8 @@ return [
     'domain_name'            =>'http://192.168.10.2',
     //每页显示条数
     'pageSize'               =>1000,
+    //登陆账号
+    'username'              =>'yangguang@megvii.com',
+    //密码
+    'password'              => 'yangguang123',
 ];
