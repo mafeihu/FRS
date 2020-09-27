@@ -19,7 +19,7 @@ class BaseApi extends Controller
     {
         $mail = new PHPMailer();//实例化
         $mail->isSMTP(); // 启用SMTP
-        $mail->Host = 'smtp.qq.com'; //SMTP服务器 以qq邮箱为例子
+        $mail->Host = 'smtp.263.net'; //SMTP服务器 以qq邮箱为例子
         $mail->Port = 465;  //邮件发送端口
         $mail->SMTPAuth = true;  //启用SMTP认证
         $mail->SMTPSecure = "ssl";   // 设置安全验证方式为ssl
