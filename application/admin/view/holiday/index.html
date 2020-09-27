@@ -1,75 +1,114 @@
-
 <div class="manage-head">
-    <h6 class="pdl5 manage-head-con wp50">节假日一览</h6>
+    <h6 class="pdl5 manage-head-con wp50">添加放假日期</h6>
 </div>
 <div class="rt-content">
-    <div class="rt-content-item ">
-        <p class="rt-content-item-title">数据筛选</p>
-        <div class="rt-item-detail clearboth mt20">
-            <div class="input-row ">
-                <div class="fleft pdl20">输入查询：</div>
-                <div class="input-box fleft">
-                    <input type="text" name="name_like" id="name_like" placeholder="请输入姓名">
+    <!-- 添加宴会信息 -->
+    <div class="rt-content-item mt20 ft14">
+        <p class="rt-content-item-title">放假日期设置
+        </p>
+        <div class="clear mb20 mauto w770">
+            <div class="input-row2  mt20">
+                <div class="input-row-title fleft w160 pdr10">放假日期：</div>
+                <div class="input-row-input fleft w300" >
+                    <input type="text" class="jqui_datepicker" name="date" id="date" placeholder="" value="">
                 </div>
             </div>
-            <div class="input-row  ml10">
-                <div class="search-btn fleft">
-                    <a href="javascript:;" onclick="doSearch()">查询</a>
+            <div class="input-row2 mt20">
+                <div class="input-row-title fleft w160 pdr10"><i class="fred">*</i>假日名称：</div>
+                <div class="input-row-input fleft w300">
+                    <input type="text" name="name" id="name" placeholder="" value="">
                 </div>
+            </div>
+            <div class="mt20 mb20 w400 ml100">
+                <a href="javascript:void(0);" class="pop-add-btn2 mr20 ml70" onclick="doSave()">保存</a>
             </div>
         </div>
     </div>
-    <!-- 数据列表 -->
-    <div class="rt-content-item mt20 ">
-        <div class="rt-content-item-title2">
-            <div class="rt-title-txt">数据列表共{$count}条记录</div>
-            <!--<div class="fright">-->
-                <!--<span class="add-txt mr10">共{$count}条记录</span>-->
-            <!--</div>-->
+    <div class="rt-content-item mt20 ft14">
+        <div class="rt-content-item-title ">
+            <div class="rt-title-txt w150">{$date}放假日期列表</div>
         </div>
-        <div class="rt-item-detail wp100">
-            <div class="table-box mb20 table-tb">
-                <table class="wp100">
-                    <thead>
-                        <tr class="bg_gray2 fb">
-                            <td class="wp10">姓名</td>
-                            <td class="wp10">UUID</td>
-                            <td class="wp10">日期</td>
-                            <td class="wp20">出去时间</td>
-                            <td class="wp20">进入时间</td>
-                            <td class="wp15">出去摄像头位置</td>
-                            <td class="wp15">邮件发送状态</td>
+        <div class="wp100  pdb20 mt20">
+            <div class="rt-item-detail wp100">
+                <div class="table-box mb20">
+                    <table class="wp100">
+                        <thead>
+                        <tr class="bg_gray2">
+                            <td class="wp40">放假时间</td>
+                            <td class="wp30">假日名称</td>
+                            <td class="wp30">操作</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {volist name='list' id='item'}
-                            <tr>
-                                <td>{$item.name}</td>
-                                <td>{$item.uuid}</td>
-                                <td>{$item.date}</td>
-                                <td>{$item.out_datetime}</td>
-                                <td>{$item.into_datetime}</td>
-                                <td>{$item.camera_position}</td>
-                                <td>{$item.send_flg}</td>
-                            </tr>
-                        {/volist}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <?php if(isset($list) && count($list) >0):foreach($list as $item): ?>
+                        <tr>
+                            <td ><?= htmlspecialchars($item['date']);?></td>
+                            <td ><?= htmlspecialchars($item['name']);?></td>
+                            <td >
+                                <a href="javascript:;" class="cross" onclick="doDelete(this,{$item['id']})">删除</a>
+                            </td>
+                        </tr>
+                        <?php endforeach;endif;?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <!-- 分页符开始 --> <!-- pagechoosen 为当前页样式-->
-
-        <div class="thepage-wrap wp100 clear mb40">
-            <div class="thepage fright mr20">
-                <span>{$page|raw}</span>
-            </div>
-        </div>
-        <!-- 分页符结束 -->
     </div>
 </div>
+<input type="hidden" name='department_id' id="department_id" value="">
 <script type="text/javascript">
-    function doSearch()
+    //保存
+    function doSave()
     {
-        doSubmit("mainform", "index");
+        var name = $('#name').val();
+        var date = $('#date').val();
+        var pagedata={
+            name:name,
+            date:date
+        };
+        //数据提交
+        doAjax({
+            type: "POST",
+            url: "{:url('holiday/save')}",
+            data: pagedata,
+            dataType: "json",
+            success: function(json)
+            {
+                if(json.status=='ok')
+                {
+                    alert(json.message);
+                    location.reload();
+                }
+                else
+                {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    //删除
+    function doDelete(e,id){
+        if(confirm("确定要删除是否删除"))
+        {
+            doAjax({
+                url: "{:url('holiday/delete')}",
+                data: {id:id},
+                success: function(rtn)
+                {
+                    if(rtn.status=='ok')
+                    {
+                        var $this=$(e);
+                        $this.parent().parent().remove();
+                    }
+                    else
+                    {
+                        alert(rtn.message);
+                    }
+                }
+            })
+        }
     }
 </script>
+
