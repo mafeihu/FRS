@@ -16,41 +16,47 @@ class TextData1 extends HttpCurl
     {
         $record_list = [
             [
-                'uuid'=>1,
-                'timestamp'=>strtotime('2020-09-27 09:05:00'),
+                'screen_id'=>1,
+                'timestamp'=>strtotime('2020-09-27 16:05:00'),
                 'screen'=>['camera_position'=>'liveOutinto1'],
-                'subject'=>['name'=>'张一','avatar'=>'header.png']
+                'name' => '张一',
+                'avatar'=>'header.png'
             ],
             [
-                'uuid'=>1,
-                'timestamp'=>strtotime('2020-09-27 09:10:00'),
+                'screen_id'=>1,
+                'timestamp'=>strtotime('2020-09-27 16:10:00'),
                 'screen'=>['camera_position'=>'liveOut1'],
-                'subject'=>['name'=>'张一','avatar'=>'header.png']
+                'name' => '张一',
+                'avatar'=>'header.png'
             ],
             [
-                'uuid'=>1,
-                'timestamp'=>strtotime('2020-09-27 09:35:00'),
+                'screen_id'=>1,
+                'timestamp'=>strtotime('2020-09-27 16:50:00'),
                 'screen'=>['camera_position'=>'liveOutinto1'],
-                'subject'=>['name'=>'张一','avatar'=>'header.png']
+                'name' => '张一',
+                'avatar'=>'header.png'
             ],
 
             [
-                'uuid'=>2,
-                'timestamp'=>strtotime('2020-09-27 09:05:00'),
+                'screen_id'=>2,
+                'timestamp'=>strtotime('2020-09-27 17:10:00'),
                 'screen'=>['camera_position'=>'liveOut1'],
-                'subject'=>['name'=>'张二','avatar'=>'header.png']
+                'name' => '张二',
+                'avatar'=>'header.png'
             ],
             [
-                'uuid'=>2,
-                'timestamp'=>strtotime('2020-09-27 09:08:00'),
+                'screen_id'=>2,
+                'timestamp'=>strtotime('2020-09-27 17:20:00'),
                 'screen'=>['camera_position'=>'liveOutinto1'],
-                'subject'=>['name'=>'张二','avatar'=>'header.png']
+                'name' => '张二',
+                'avatar'=>'header.png'
             ],
             [
-                'uuid'=>2,
-                'timestamp'=>strtotime('2020-09-27 09:10:00'),
+                'screen_id'=>2,
+                'timestamp'=>strtotime('2020-09-27 17:50:00'),
                 'screen'=>['camera_position'=>'liveOut1'],
-                'subject'=>['name'=>'张二','avatar'=>'header.png']
+                'name' => '张二',
+                'avatar'=>'header.png'
             ],
 
     ];

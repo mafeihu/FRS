@@ -32,16 +32,14 @@ class FrcApi extends TextData1
             return false;
         }
 
-        //请求参数
-        $requestParams = [];
-        $requestParams['type'] = 1;
-        $requestParams['page'] = 1;
-        $requestParams['screen_id'] = 4;
-        $requestParams['size'] = 10;//config('pageSize');
-        //获取数据
-        $result = $this->getrecordlist($auth_token,$requestParams);
-
-
+//        //请求参数
+//        $requestParams = [];
+//        $requestParams['type'] = 1;
+//        $requestParams['page'] = 1;
+//        $requestParams['screen_id'] = 4;
+//        $requestParams['size'] = config('pageSize');
+//        //获取数据
+//        $result = $this->getrecordlist($auth_token,$requestParams);
         //获取上次执行时间
         $lastEexcTime = $this->getlastExecTime();
         //获取当前时间戳
@@ -107,16 +105,14 @@ class FrcApi extends TextData1
                     {
                         //照相机信息
                         $camera_position = $info['screen']['camera_position'];
-                        //人员信息
-                        $subject = $info['subject'];
                         //如果是出口相机直接保存
                         if($camera_position == 'liveOut1' || $camera_position == 'liveOut2')
                         {
                             //分页数据
                             $pageData = [];
-                            $pageData['uuid'] = $subject['subject_id'];
-                            $pageData['name'] = $subject['name'];
-                            $pageData['avatar'] = $subject['avatar'];
+                            $pageData['uuid'] = $info['subject_id'];
+                            $pageData['name'] = $info['name'];
+                            $pageData['avatar'] = $info['avatar'];
                             $pageData['camera_position'] = $camera_position;
                             $pageData['out_datetime'] = date('Y-m-d H:i:s',$info['timestamp']);;
                             $pageData['date'] = $nowDate;
@@ -129,8 +125,8 @@ class FrcApi extends TextData1
                             //分页数据
                             $pageData = [];
                             $pageData['uuid'] = $info['subject_id'];
-                            $pageData['name'] = $subject['name'];
-                            $pageData['avatar'] = $subject['avatar'];
+                            $pageData['name'] = $info['name'];
+                            $pageData['avatar'] = $info['avatar'];
                             $pageData['camera_position'] = $camera_position;
                             $pageData['timestamp'] = date('Y-m-d H:i:s',$info['timestamp']);
                             array_push($intoData,$pageData);
