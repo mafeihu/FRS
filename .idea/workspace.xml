@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fc45b38-34b8-44e3-aa61-7f8efedbee39" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/api/controller/TextData1.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/api/controller/FrcApi.php" afterPath="$PROJECT_DIR$/application/api/controller/FrcApi.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.php" afterPath="$PROJECT_DIR$/config/app.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +28,8 @@
       <file leaf-file-name="FrcApi.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/api/controller/FrcApi.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="611">
-              <caret line="449" column="47" lean-forward="false" selection-start-line="449" selection-start-column="47" selection-end-line="449" selection-end-column="47" />
+            <state relative-caret-position="548">
+              <caret line="199" column="45" lean-forward="false" selection-start-line="199" selection-start-column="45" selection-end-line="199" selection-end-column="45" />
               <folding>
                 <element signature="e#6#102#0#PHP" expanded="true" />
                 <element signature="e#133#146#0#PHP" expanded="true" />
@@ -121,6 +119,7 @@
       <find>$outData</find>
       <find>getlastExecTime</find>
       <find>var</find>
+      <find>$lastEexcTime</find>
     </findStrings>
     <replaceStrings>
       <replace>/frs/images/</replace>
@@ -534,12 +533,12 @@
       <workItem from="1600838034303" duration="119000" />
       <workItem from="1600838200506" duration="11344000" />
       <workItem from="1600850555337" duration="44188000" />
-      <workItem from="1601168952330" duration="2584000" />
+      <workItem from="1601168952330" duration="3253000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88341000" />
+    <option name="totallyTimeSpent" value="89010000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -928,8 +927,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/api/controller/FrcApi.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="449" column="47" lean-forward="false" selection-start-line="449" selection-start-column="47" selection-end-line="449" selection-end-column="47" />
+        <state relative-caret-position="548">
+          <caret line="199" column="45" lean-forward="false" selection-start-line="199" selection-start-column="45" selection-end-line="199" selection-end-column="45" />
           <folding>
             <element signature="e#6#102#0#PHP" expanded="true" />
             <element signature="e#133#146#0#PHP" expanded="true" />

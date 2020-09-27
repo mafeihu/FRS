@@ -70,15 +70,15 @@ class FrcApi extends TextData1
             $requestParams['size'] = config('pageSize');
             $requestParams['start'] = $lastEexcTime;
             $requestParams['end'] = $nowTime;
-            //获取数据
-            $result = $this->getrecordlist($requestParams);
-            if($result['code']==0 && count($result['data'])>0)
+//            //获取数据
+//            $result = $this->getrecordlist($requestParams);
+//            if($result['code']==0 && count($result['data'])>0)
             if(true)
             {
 
                 //识别记录数据整合
-                $record_list = $result['data'];
-                //$record_list = $this->getCeshiData();
+                //$record_list = $result['data'];
+                $record_list = $this->getCeshiData();
                 foreach ($record_list as $info)
                 {
                     //照相机信息
@@ -190,10 +190,17 @@ class FrcApi extends TextData1
                     }
                 }
             }
+
+            //更新执行时间
+            $this->setlastExecTime($nowTime);
+        }
+        else
+        {
+            //更新执行时间
+            $this->setlastExecTime($nowTime);
         }
 
-        //更新执行时间
-        $this->setlastExecTime($thisEexcTime);
+
     }
 
     //====================================================方法==============================================================//
