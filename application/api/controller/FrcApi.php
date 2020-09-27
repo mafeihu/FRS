@@ -10,7 +10,7 @@ namespace app\api\controller;
 use think\Db;
 use FunctionClass;
 
-class FrcApi extends TextData
+class FrcApi extends TextData1
 {
     /**
      *预警人员处理
@@ -48,14 +48,14 @@ class FrcApi extends TextData
         //计算临界时间
         $minute = $this->getFrcMinute();
         $frc_second = $minute * 60;
-        $riticalTime= $lastEexcTime + $frc_second;
+        $thisEexcTime= $lastEexcTime + $frc_second;
         //获取上午初始时间
-        if($riticalTime>=$am_start_time && $lastEexcTime<=$am_start_time)
+        if($thisEexcTime>=$am_start_time && $lastEexcTime<=$am_start_time)
         {
             $lastEexcTime = $am_start_time;
         }
         //获取下午初始时间
-        if($riticalTime>=$pm_start_time && $lastEexcTime<=$pm_start_time)
+        if($thisEexcTime>=$pm_start_time && $lastEexcTime<=$pm_start_time)
         {
             $lastEexcTime = $pm_start_time;
         }
@@ -73,11 +73,12 @@ class FrcApi extends TextData
             //获取数据
             $result = $this->getrecordlist($requestParams);
             if($result['code']==0 && count($result['data'])>0)
+            if(true)
             {
 
                 //识别记录数据整合
                 $record_list = $result['data'];
-                $record_list = $this->getCeshiData();
+                //$record_list = $this->getCeshiData();
                 foreach ($record_list as $info)
                 {
                     //照相机信息
@@ -172,7 +173,7 @@ class FrcApi extends TextData
             if (count($fcwData)>0)
             {
                 //获取邮件内容
-                $mailContent = $this->getSendMailCount($fcwData);
+                $mailContent = $this->getSendMailCount($fcwData,$nowTime);
 
                 //邮件发送
                 $cond = [];
@@ -192,7 +193,7 @@ class FrcApi extends TextData
         }
 
         //更新执行时间
-        $this->setlastExecTime($lastEexcTime);
+        $this->setlastExecTime($thisEexcTime);
     }
 
     //====================================================方法==============================================================//
@@ -225,6 +226,7 @@ class FrcApi extends TextData
     //设置上次执行时间
     private function setlastExecTime($exec_tiem)
     {
+        //var_dump($exec_tiem);exit;
         //条件
         $cond = [];
         $cond['id'] = 1;
@@ -436,14 +438,16 @@ class FrcApi extends TextData
     /**
      * 获取发送邮件内容
      */
-    private function getSendMailCount($frcData)
+    private function getSendMailCount($frcData,$nowTime)
     {
+        //pre($frcData);
         //发送邮件内容
         $content = '';
         $content .= "<ul>";
         foreach ($frcData as $info)
         {
-            $content .= "<li>{$info['name']}出去时间:{$info['out_datetime']}</li>";
+            $into_datetime= FunctionClass::isNullOrEmpty($info['into_datetime']) ? date("Y-m-d H:i:s",$nowTime) : $info['into_datetime'];
+            $content .= "<li>{$info['name']}出截止时间:{$info['out_datetime']}至{$into_datetime}已超出预警时间</li>";
         }
         $content .= "</ul>";
         return $content;
