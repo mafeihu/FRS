@@ -14,6 +14,8 @@ class FrcTestApi extends TextData1
     public function test()
     {
 
+        DB::table('frs_record')->delete(true);
+        DB::table('frs_api_record')->delete(true);
         $data= file_get_contents('data1.txt');
         $result = $this->object_array(json_decode($data));
         //进摄像头
@@ -23,15 +25,26 @@ class FrcTestApi extends TextData1
         //获取上次执行时间
         $lastEexcTime = $this->getlastExecTime();
         //获取当前时间戳
-        $nowTime = time();
+        $nowTime = strtotime('2020-09-27 21:00:00');
         //获取当前日期
         $nowDate = date('Y-m-d');
         //接口数据处理
         $apiData = $this->getApiData($into_camera_position,$out_camera_position,$result['data']);
-        pre($apiData);
+        //pre($apiData);
         $outData = [];
         $intoData = [];
         $record_list = $result['data'];
+        $am_start_time = strtotime('2020-09-27 09:00:00');
+        $am_end_time = strtotime('2020-09-27 12:00:00');
+        $am_start_datetime = '2020-09-27 09:00:00';
+        $am_end_datetime = '2020-09-27 12:00:00';
+
+        $pm_start_time = strtotime('2020-09-27 14:00:00');
+        $pm_end_time = strtotime('2020-09-27 22:00:00');
+        $pm_start_datetime = '2020-09-27 14:00:00';
+        $pm_end_datetime = '2020-09-27 22:00:00';
+
+
         //接口数据处理
         $apiData = $this->getApiData($into_camera_position,$out_camera_position,$record_list);
         foreach ($apiData as $info)
@@ -68,9 +81,80 @@ class FrcTestApi extends TextData1
                 array_push($intoData,$pageData);
             }
         }
-        pre($outData);
-        pre($intoData);
-        exit;
+        //保存出去信息
+        if(count($outData)>0)
+        {
+            //保存出去数据
+            DB::table('frs_record')->insertAll($outData);
+            //重新保存进入数据
+            Db::name('frs_api_record')->delete(true);
+            DB::table('frs_api_record')->insertAll($intoData);
+        }
+
+        $workNoSendEmailIntoNullRecordList = [];
+        //获取上班出去未回来未发送发送邮件的记录(上午)
+        if($nowTime>=$am_start_time && $nowTime<=$am_end_time)
+        {
+            $workNoSendEmailIntoNullRecordList = $this->getWorkNoSendEmailIntoNullRecordList($am_start_datetime,$am_end_datetime);
+        }
+
+        //获取上班出去未回来未发送发送邮件的记录(下午)
+        if($nowTime>=$pm_start_time && $nowTime<=$pm_end_time)
+        {
+            $workNoSendEmailIntoNullRecordList = $this->getWorkNoSendEmailIntoNullRecordList($pm_start_datetime,$pm_end_datetime);
+        }
+        //进入的数据
+        $apiInfoRecordList = $this->getApiInfoRecordList($lastEexcTime,$nowTime);
+        //数据整合
+        $uuidRecordInfoData = $this->getPackageRecordData($workNoSendEmailIntoNullRecordList,$apiInfoRecordList);
+        //更新进入信息
+        if(count($uuidRecordInfoData)>0)
+        {
+            foreach ($uuidRecordInfoData as $uuidRecordInfo)
+            {
+                $data = [];
+                $data['into_datetime'] = $uuidRecordInfo['into_datetime'];
+                $data['obj_modifydate'] = date('Y-m-d H:i:s');
+                DB::name('frs_record')->where(['id'=>$uuidRecordInfo['id']])->update($data);
+            }
+        }
+
+        $workNoSendEmailRecordList = [];
+        //获取上班出去未回来未发送发送邮件的记录(上午)
+        if($nowTime>=$am_start_time && $nowTime<=$am_end_time)
+        {
+            $workNoSendEmailRecordList = $this->getWorkNoSendEmailRecordList($am_start_datetime,$am_end_datetime);
+        }
+
+        //获取上班出去未回来未发送发送邮件的记录(下午)
+        if($nowTime>=$pm_start_time && $nowTime<=$pm_end_time)
+        {
+            $workNoSendEmailRecordList = $this->getWorkNoSendEmailRecordList($pm_start_datetime,$pm_end_datetime);
+        }
+        //获取预警人员信息
+        $fcwData = $this->getComputeFcwRecordList($workNoSendEmailRecordList,$nowTime,$am_start_time,$am_end_time,$pm_start_time,$pm_end_time);
+        if (count($fcwData)>0)
+        {
+            //获取邮件内容
+            $mailContent = $this->getSendMailCount($fcwData,$nowTime);
+
+            //邮件发送
+            $cond = [];
+            $cond['id'] = 1;
+            $emailConfig = DB::table('frs_mail')->where($cond)->find();
+            $result = $this->sendEmail($emailConfig, $mailContent);
+
+            //更新发送发送邮件数据
+            if($result)
+            {   $log_str = date('Y-m-d H:i:s').'邮件发送成功';
+                $this->logCreate($log_file,$log_str);
+                return false;
+                foreach ($fcwData as $item)
+                {
+                    DB::table('frs_record')->where(['id'=>$item['id']])->update(['send_flg'=>1]);
+                }
+            }
+        }
     }
     /**
      *预警人员处理
