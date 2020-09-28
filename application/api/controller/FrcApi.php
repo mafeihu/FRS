@@ -111,8 +111,10 @@ class FrcApi extends TextData1
                     $apiData = $this->getApiData($into_camera_position,$out_camera_position,$result);
                     foreach ($apiData as $info)
                     {
+
                         //摄像头
                         $camera_position = $info['camera_position'];
+
                         //如果是出口相机直接保存
                         if(in_array($camera_position,$out_camera_position))
                         {
