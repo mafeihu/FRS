@@ -32,16 +32,10 @@ class FrcApi extends TextData1
             return false;
         }
 
-        //请求参数
-        $requestParams = [];
-        $requestParams['type'] = 1;
-        $requestParams['page'] = 1;
-        $requestParams['screen_id'] = 4;
-        $requestParams['size'] = 10;//config('pageSize');
-        //获取数据
-        $result = $this->getrecordlist($auth_token,$requestParams);
-
-
+        //进摄像头
+        $into_camera_position = [1,3];
+        //出摄像头
+        $out_camera_position = [2,4];
         //获取上次执行时间
         $lastEexcTime = $this->getlastExecTime();
         //获取当前时间戳
@@ -82,7 +76,6 @@ class FrcApi extends TextData1
         {
             $lastEexcTime = $pm_start_time;
         }
-
         //判断是否在工作时间内
         if(($nowTime>=$am_start_time && $nowTime<=$am_end_time) || ($nowTime>=$pm_start_time && $nowTime<=$pm_end_time))
         {
@@ -97,40 +90,45 @@ class FrcApi extends TextData1
             $result = $this->getrecordlist($auth_token,$requestParams);
             if($result['code']==0 && count($result['data'])>0)
             {
-
-                //识别记录数据整合
-                $record_list = $result['data'];
-                //$record_list = $this->getCeshiData();
-                foreach ($record_list as $info)
+                //获取总页数
+                $pageinfo = $result['page'];
+                $total_page = $pageinfo['total'];
+                for ($page=1; $page<=$total_page; $page++)
                 {
-                    if($info['subject_id']>0)
+                    //获取数据
+                    $requestParams['size'] = config('pageSize');
+                    $result = $this->getrecordlist($auth_token,$requestParams);
+                    //识别记录数据整合
+                    $record_list = $result['data'];
+                    //接口数据处理
+                    $apiData = $this->getApiData($into_camera_position,$out_camera_position,$result);
+                    foreach ($apiData as $info)
                     {
-                        //照相机信息
-                        $camera_position = $info['screen']['camera_position'];
-                        //人员信息
-                        $subject = $info['subject'];
+                        //摄像头
+                        $camera_position = $info['camera_position'];
                         //如果是出口相机直接保存
-                        if($camera_position == 'liveOut1' || $camera_position == 'liveOut2')
+                        if(in_array($camera_position,$out_camera_position))
                         {
                             //分页数据
                             $pageData = [];
-                            $pageData['uuid'] = $subject['subject_id'];
-                            $pageData['name'] = $subject['name'];
-                            $pageData['avatar'] = $subject['avatar'];
+                            $pageData['uuid'] = $info['subject_id'];
+                            $pageData['name'] = $info['name'];
+                            $pageData['avatar'] = $info['avatar'];
                             $pageData['camera_position'] = $camera_position;
                             $pageData['out_datetime'] = date('Y-m-d H:i:s',$info['timestamp']);;
                             $pageData['date'] = $nowDate;
                             array_push($outData,$pageData);
                         }
 
+
                         //如果是进口相机直接保存
-                        if($camera_position == 'liveOutinto1' || $camera_position == 'liveOutinto2')
+                        if(in_array($camera_position,$into_camera_position))
                         {
                             //分页数据
                             $pageData = [];
                             $pageData['uuid'] = $info['subject_id'];
-                            $pageData['name'] = $subject['name'];
-                            $pageData['avatar'] = $subject['avatar'];
+                            $pageData['name'] = $info['name'];
+                            $pageData['avatar'] = $info['avatar'];
                             $pageData['camera_position'] = $camera_position;
                             $pageData['timestamp'] = date('Y-m-d H:i:s',$info['timestamp']);
                             array_push($intoData,$pageData);
@@ -139,7 +137,6 @@ class FrcApi extends TextData1
 
                 }
             }
-
             //保存出去信息
             if(count($outData)>0)
             {
@@ -225,8 +222,6 @@ class FrcApi extends TextData1
             //更新执行时间
             $this->setlastExecTime($nowTime);
         }
-
-
     }
 
     //====================================================方法==============================================================//
@@ -250,6 +245,106 @@ class FrcApi extends TextData1
         $result = $this->posturl($url,$requestParams);
         return $this->object_array(json_decode($result));
     }
+
+    //接口数据整合
+    protected function getApiData($into_camera_position,$out_camera_position,$apiData)
+    {
+        $resultData = [];
+        foreach ($apiData as $key=>$info)
+        {
+            if($info['subject_id']>0)
+            {
+                //照相机信息
+                $camera_position = $info['screen']['camera_position'];
+                $avatar = $info['subject']['avatar'];
+
+                //分页数据
+                $pageData = [];
+                $pageData['uuid'] = $info['subject_id'];
+                $pageData['name'] = $info['name'];
+                $pageData['avatar'] = $avatar;
+                $pageData['camera_position'] = $camera_position;
+                $pageData['timestamp'] = $info['timestamp'];
+                array_push($resultData,$pageData);
+            }
+        }
+        //获取所有人
+        $uuidResultData = [];
+        foreach($resultData as $info)
+        {
+            if(!in_array($info['uuid'],$uuidResultData))
+            {
+                array_push($uuidAllData,$info['uuid']);
+            }
+        }
+
+        //按照人进行数据分组
+        $uuidGroupData = [];
+        foreach ($uuidResultData as $uuid)
+        {
+            $uuidGroupData[$uuid] = [];
+            foreach ($resultData as $info)
+            {
+                if($uuid==$info['uuid'])
+                {
+                    $uuidGroupData[$uuid][] = $info;
+                }
+            }
+        }
+
+        //对连续进出的数据进行去重
+        $resturnData = [];
+        foreach ($uuidGroupData as $uuidInfodata)
+        {
+
+            foreach ($uuidInfodata as $key=>$uuidInfo)
+            {
+                //echo $key;
+                //当前摄像头位置
+                $this_camera_position = $uuidInfo['camera_position'];
+                //如果出去的数据出现连续的时候(最近一条)
+                if(in_array($this_camera_position,$out_camera_position))
+                {
+                    //上一条摄像头位置
+                    if($key>0)
+                    {
+                        //echo $key;
+                        $last_camera_position = $uuidInfodata[$key-1]['camera_position'];
+                        echo $last_camera_position;
+                        if(in_array($last_camera_position,$into_camera_position))
+                        {
+                            array_push($resturnData,$uuidInfo);
+                        }
+                    }
+                    else
+                    {
+                        array_push($resturnData,$uuidInfo);
+                    }
+                }
+
+                //如果进的数据出现连续的时候(最近一条)
+                if(in_array($this_camera_position,$into_camera_position))
+                {
+
+                    //上一条摄像头位置
+                    if($key<count($uuidInfodata)-1)
+                    {
+                        $next_camera_position = $uuidInfodata[$key+1]['camera_position'];
+                        if(in_array($next_camera_position,$out_camera_position))
+                        {
+                            array_push($resturnData,$uuidInfo);
+                        }
+
+                    }
+                    else
+                    {
+                        array_push($resturnData,$uuidInfo);
+                    }
+                }
+            }
+        }
+    }
+
 
     //获取预警时间
     private function getFrcMinute()

@@ -20,7 +20,8 @@ class Record extends BaseLogin
     {
         //条件
         $cond = [];
-        $cond[]= ['obj_status','=',1];
+        $cond[] = ['obj_status','=',1];
+        $cond[] = ['send_flg','=',1];
         $name_like = $this->request->param('name_like');
         $start_date = $this->request->param('start_date');
         $end_date = $this->request->param('end_date');
