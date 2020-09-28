@@ -12,10 +12,6 @@ use FunctionClass;
 
 class FrcApi extends TextData1
 {
-    public function haha()
-    {
-        var_dump('ceshi');exit;
-    }
     /**
      *预警人员处理
      */
@@ -25,19 +21,15 @@ class FrcApi extends TextData1
         //日志文件保存路径
         $log_file = date('YmdH').'-FRSlog.txt';
         $authLogin = $this->authLogin();
-//        pre($authLogin);exit;
-//        if($authLogin['code']==0 && count($authLogin['data'])>0)
-//        {
-//            $auth_token = $authLogin['data']['auth_token'];
-//        }else
-//        {
-//
-//            $log_str = date('Y-m-d H:i:s').'登陆失败';
-//            $this->logCreate($log_file,$log_str);
-//            return false;
-//        }
-        $auth_token ='refsafadfa';
-
+        if($authLogin['code']==0 && count($authLogin['data'])>0)
+        {
+            $auth_token = $authLogin['data']['auth_token'];
+        }else
+        {
+            $log_str = date('Y-m-d H:i:s').'登陆失败';
+            $this->logCreate($log_file,$log_str);
+            return false;
+        }
 
         //进摄像头
         $into_camera_position = [1,3];
@@ -68,7 +60,6 @@ class FrcApi extends TextData1
         $outData = [];
         //进数据
         $intoData = [];
-
         //计算临界时间
         $minute = $this->getFrcMinute();
         $frc_second = $minute * 60;
@@ -108,7 +99,7 @@ class FrcApi extends TextData1
                     //识别记录数据整合
                     $record_list = $result['data'];
                     //接口数据处理
-                    $apiData = $this->getApiData($into_camera_position,$out_camera_position,$result);
+                    $apiData = $this->getApiData($into_camera_position,$out_camera_position,$record_list);
                     foreach ($apiData as $info)
                     {
 
@@ -120,7 +111,7 @@ class FrcApi extends TextData1
                         {
                             //分页数据
                             $pageData = [];
-                            $pageData['uuid'] = $info['subject_id'];
+                            $pageData['uuid'] = $info['uuid'];
                             $pageData['name'] = $info['name'];
                             $pageData['avatar'] = $info['avatar'];
                             $pageData['camera_position'] = $camera_position;
@@ -135,7 +126,7 @@ class FrcApi extends TextData1
                         {
                             //分页数据
                             $pageData = [];
-                            $pageData['uuid'] = $info['subject_id'];
+                            $pageData['uuid'] = $info['uuid'];
                             $pageData['name'] = $info['name'];
                             $pageData['avatar'] = $info['avatar'];
                             $pageData['camera_position'] = $camera_position;
@@ -283,7 +274,7 @@ class FrcApi extends TextData1
         {
             if(!in_array($info['uuid'],$uuidResultData))
             {
-                array_push($uuidAllData,$info['uuid']);
+                array_push($uuidResultData,$info['uuid']);
             }
         }
 

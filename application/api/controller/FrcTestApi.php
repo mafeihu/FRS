@@ -31,10 +31,15 @@ class FrcTestApi extends TextData1
         pre($apiData);
         $outData = [];
         $intoData = [];
+        $record_list = $result['data'];
+        //接口数据处理
+        $apiData = $this->getApiData($into_camera_position,$out_camera_position,$record_list);
         foreach ($apiData as $info)
         {
+
             //摄像头
             $camera_position = $info['camera_position'];
+
             //如果是出口相机直接保存
             if(in_array($camera_position,$out_camera_position))
             {
@@ -63,7 +68,6 @@ class FrcTestApi extends TextData1
                 array_push($intoData,$pageData);
             }
         }
-
         pre($outData);
         pre($intoData);
         exit;
