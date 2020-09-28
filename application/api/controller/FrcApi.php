@@ -207,6 +207,8 @@ class FrcApi extends TextData1
                 //更新发送发送邮件数据
                 if($result)
                 {
+                    $log_str = date('Y-m-d H:i:s').'邮件发送成功';
+                    $this->logCreate($log_file,$log_str);
                     foreach ($fcwData as $item)
                     {
                         DB::table('frs_record')->where(['id'=>$item['id']])->update(['send_flg'=>1]);
