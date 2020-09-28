@@ -9,12 +9,64 @@
 namespace app\api\controller;
 use think\Db;
 use FunctionClass;
-
-class FrcApi extends TextData1
+class FrcTestApi extends TextData1
 {
-    public function haha()
+    public function test()
     {
-        var_dump('ceshi');exit;
+
+        $data= file_get_contents('data1.txt');
+        $result = $this->object_array(json_decode($data));
+        //进摄像头
+        $into_camera_position = [1,3];
+        //出摄像头
+        $out_camera_position = [2,4];
+        //获取上次执行时间
+        $lastEexcTime = $this->getlastExecTime();
+        //获取当前时间戳
+        $nowTime = time();
+        //获取当前日期
+        $nowDate = date('Y-m-d');
+        //接口数据处理
+        $apiData = $this->getApiData($into_camera_position,$out_camera_position,$result['data']);
+        pre($apiData);
+        $outData = [];
+        $intoData = [];
+        foreach ($apiData as $info)
+        {
+            //摄像头
+            $camera_position = $info['camera_position'];
+            //如果是出口相机直接保存
+            if(in_array($camera_position,$out_camera_position))
+            {
+                //分页数据
+                $pageData = [];
+                $pageData['uuid'] = $info['uuid'];
+                $pageData['name'] = $info['name'];
+                $pageData['avatar'] = $info['avatar'];
+                $pageData['camera_position'] = $camera_position;
+                $pageData['out_datetime'] = date('Y-m-d H:i:s',$info['timestamp']);;
+                $pageData['date'] = $nowDate;
+                array_push($outData,$pageData);
+            }
+
+
+            //如果是进口相机直接保存
+            if(in_array($camera_position,$into_camera_position))
+            {
+                //分页数据
+                $pageData = [];
+                $pageData['uuid'] = $info['uuid'];
+                $pageData['name'] = $info['name'];
+                $pageData['avatar'] = $info['avatar'];
+                $pageData['camera_position'] = $camera_position;
+                $pageData['timestamp'] = date('Y-m-d H:i:s',$info['timestamp']);
+                array_push($intoData,$pageData);
+            }
+        }
+
+        pre($outData);
+        pre($intoData);
+        exit;
     }
     /**
      *预警人员处理
@@ -25,19 +77,16 @@ class FrcApi extends TextData1
         //日志文件保存路径
         $log_file = date('YmdH').'-FRSlog.txt';
         $authLogin = $this->authLogin();
-//        pre($authLogin);exit;
-//        if($authLogin['code']==0 && count($authLogin['data'])>0)
-//        {
-//            $auth_token = $authLogin['data']['auth_token'];
-//        }else
-//        {
-//
-//            $log_str = date('Y-m-d H:i:s').'登陆失败';
-//            $this->logCreate($log_file,$log_str);
-//            return false;
-//        }
-        $auth_token ='refsafadfa';
+        if($authLogin['code']==0 && count($authLogin['data'])>0)
+        {
+            $auth_token = $authLogin['data']['auth_token'];
+        }else
+        {
 
+            $log_str = date('Y-m-d H:i:s').'登陆失败';
+            $this->logCreate($log_file,$log_str);
+            return false;
+        }
 
         //进摄像头
         $into_camera_position = [1,3];
@@ -281,7 +330,7 @@ class FrcApi extends TextData1
         {
             if(!in_array($info['uuid'],$uuidResultData))
             {
-                array_push($uuidAllData,$info['uuid']);
+                array_push($uuidResultData,$info['uuid']);
             }
         }
 
@@ -350,6 +399,7 @@ class FrcApi extends TextData1
                 }
             }
         }
+        return $resturnData;
     }
 
 
