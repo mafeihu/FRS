@@ -26,8 +26,12 @@
     </div>
     <div class="rt-content-item mt20 ft14">
         <div class="rt-content-item-title ">
-            <div class="rt-title-txt w150">{$date}放假日期列表</div>
+            <div class="rt-title-txt w150">{$year}日期列表</div>
+            <div class="fright mr20">
+                <a href="javascript:void(0);" class="pop-add-btn2 mr20 ml70" onclick="doCreateHoliday()">生成节假日</a>
+            </div>
         </div>
+
         <div class="wp100  pdb20 mt20">
             <div class="rt-item-detail wp100">
                 <div class="table-box mb20">
@@ -87,7 +91,32 @@
             }
         });
     }
+    function doCreateHoliday()
+    {
+        if(confirm("确定重新生成节假日列表"))
+        {
+            //数据提交
+            doAjax({
+                type: "POST",
+                url: "{:url('holiday/CreateHoliday')}",
+                data: {},
+                dataType: "json",
+                success: function(json)
+                {
+                    if(json.status=='ok')
+                    {
+                        alert(json.message);
+                        location.reload();
+                    }
+                    else
+                    {
+                        alert(json.message);
+                    }
+                }
+            });
+        }
 
+    }
     //删除
     function doDelete(e,id){
         if(confirm("确定要删除是否删除"))

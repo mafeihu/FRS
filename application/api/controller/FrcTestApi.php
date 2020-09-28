@@ -9,8 +9,16 @@
 namespace app\api\controller;
 use think\Db;
 use FunctionClass;
-class FrcTestApi extends TextData1
+class FrcTestApi extends HttpCurl
 {
+
+
+
+
+
+
+
+
     public function test()
     {
 

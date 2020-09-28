@@ -10,7 +10,7 @@ namespace app\api\controller;
 use think\Db;
 use FunctionClass;
 
-class FrcApi extends TextData1
+class FrcApi extends HttpCurl
 {
     /**
      *预警人员处理
