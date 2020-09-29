@@ -17,6 +17,15 @@ class FrcApi extends HttpCurl
      */
     public function frcUserdeal()
     {
+        //获取当前日期
+        $nowDate = date('Y-m-d');
+        $isHoliday = $this->isHoliday($nowDate);
+        if(!$isHoliday)
+        {
+            return false;
+            exit;
+        }
+
         //授权登陆
         //日志文件保存路径
         $log_file = date('YmdH').'-FRSlog.txt';
@@ -39,8 +48,7 @@ class FrcApi extends HttpCurl
         $lastEexcTime = $this->getlastExecTime();
         //获取当前时间戳
         $nowTime = time();
-        //获取当前日期
-        $nowDate = date('Y-m-d');
+
         //获取上班时间
         $wordTimeData = $this->getWorkTime();
         //上午上班时间s时间戳
@@ -247,6 +255,17 @@ class FrcApi extends HttpCurl
         $result = $this->posturl($url,$requestParams);
         return $this->object_array(json_decode($result));
     }
+
+    //=================判断日期是否是节假日==========================//
+    protected function isHoliday($date)
+    {
+        $cond =[];
+        $cond['obj_status'] = 1;
+        $cond['date'] = $date;
+        $result = DB::table('frs_holiday')->where($cond)->find();
+        return $result;
+    }
+
 
     //接口数据整合
     protected function getApiData($into_camera_position,$out_camera_position,$apiData)
